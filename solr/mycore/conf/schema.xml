@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema name="mycore" version="1.5">
+
+  <uniqueKey>id</uniqueKey>
+
+  <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"
+      indexed="true"
+      stored="true"
+      required="false"
+      multiValued="false" />
+  <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"
+      indexed="true"
+      stored="true"
+      required="false"
+      multiValued="false" />
+  <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"
+      indexed="true"
+      stored="true"
+      required="false"
+      multiValued="false" />
+  <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0" />
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="false"
+      indexed="true"
+      stored="true"
+      required="false"
+      multiValued="false" />
+
+  <fieldType name="text_de" class="solr.TextField" positionIncrementGap="100"
+      indexed="true"
+      stored="true"
+      required="false"
+      multiValued="true"
+      termVectors="true"
+      termPositions="true"
+      termOffsets="true">
+    <analyzer type="index">
+      <charFilter class="solr.HTMLStripCharFilterFactory" />
+      <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;&apos;\p{Z}\s′`″”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
+      <filter class="solr.LowerCaseFilterFactory" />
+      <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings.txt" />
+      <filter class="sub.fwb.LemmaNormalizingFilterFactory" />
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;&apos;\p{Z}\s′`″”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
+      <filter class="solr.LowerCaseFilterFactory" />
+    </analyzer>
+  </fieldType>
+
+  <fieldType name="text_old_german" class="solr.TextField" positionIncrementGap="100"
+      indexed="true"
+      stored="true"
+      required="false"
+      multiValued="true"
+      termVectors="true"
+      termPositions="true"
+      termOffsets="true">
+    <analyzer type="index">
+      <charFilter class="solr.HTMLStripCharFilterFactory" />
+      <tokenizer class="solr.StandardTokenizerFactory" />
+      <filter class="solr.LowerCaseFilterFactory" />
+      <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings_for_quotes.txt" />
+      <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="u" replacement="v" />
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.StandardTokenizerFactory" />
+      <filter class="solr.LowerCaseFilterFactory" />
+      <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="u" replacement="v" />
+    </analyzer>
+  </fieldType>
+
+  <field name="id" type="string" required="true" />
+  <!-- artikel / quelle -->
+
+  <!-- Artikel (type=artikel) -->
+  <field name="artikel" type="text_de" multiValued="false" />
+  <field name="artikel_text" type="text_de" multiValued="false" />
+  <field name="lemma" type="text_de" multiValued="false" />
+  <field name="lemma_text" type="text_de" multiValued="false" />
+  <field name="neblem" type="text_de" />
+  <field name="neblem_text" type="text_de" />
+  <field name="def" type="text_de" />
+  <field name="def_text" type="text_de" />
+  <field name="zitat" type="text_old_german" />
+  <field name="zitat_text" type="text_old_german" />
+  <field name="bdv" type="text_de" />
+  <field name="bdv_text" type="text_de" />
+  <field name="subvoce" type="text_de" />
+  <field name="subvoce_text" type="text_de" />
+  <field name="ggs" type="text_de" />
+  <field name="ggs_text" type="text_de" />
+  <field name="phras" type="text_de" />
+  <field name="phras_text" type="text_de" />
+  <field name="zursache" type="text_de" />
+  <field name="zursache_text" type="text_de" />
+  <field name="synt" type="text_de" />
+  <field name="synt_text" type="text_de" />
+  <field name="stw" type="text_de" />
+  <field name="stw_text" type="text_de" />
+  <field name="wbg" type="text_de" />
+  <field name="wbg_text" type="text_de" />
+  <field name="wbv" type="text_de" />
+  <field name="wbv_text" type="text_de" />
+
+  <field name="printed_source" type="string" />
+  <field name="volume" type="string" />
+  <field name="col" type="string" />
+  <!-- ID aus dem TEI -->
+  <field name="internal_id" type="string" />
+  <field name="sortkey" type="string" />
+  <field name="roman_number" type="string" />
+  <field name="homonym" type="int" />
+  <field name="wortart" type="string" />
+  <field name="wortart_allgemein" type="string" />
+  <field name="article_version" type="string" />
+  <!-- true bei Artikeln die *.ref* -->
+  <field name="is_reference" type="boolean" />
+  <field name="unblocking_date" type="date" />
+  <field name="region" type="string" multiValued="true" />
+  <field name="datum" type="string" multiValued="true" />
+
+  <field name="etym" type="text_de" multiValued="false" />
+  <field name="head_comment" type="text_de" multiValued="false" />
+
+  <field name="def_number" type="string" multiValued="true" />
+  <field name="sense_number" type="int" />
+  <!-- referenzierte Quellenangabe -->
+  <field name="definition_source_id" type="string" multiValued="true" />
+  <!-- Belegstelle -->
+  <field name="definition_source_instance" type="string" multiValued="true" />
+
+  <field name="bdv_id" type="string" multiValued="true" />
+
+  <!-- Bibliographie (type=quelle) -->
+  <field name="source_page" type="string" />
+  <field name="source_short" type="string" />
+  <field name="source_title" type="text_de" multiValued="false" />
+  <field name="source_date_display" type="text_de" multiValued="false" />
+  <field name="source_date" type="date" />
+  <field name="source_author" type="string" multiValued="true" />
+  <field name="source_author_secondary" type="string" multiValued="true" />
+  <field name="source_author_display" type="string" />
+  <field name="source_herausgeber" type="string" multiValued="true" />
+  <field name="source_html" type="text_de" multiValued="false" />
+
+  <!-- transaction log -->
+  <field name="_version_" type="long" indexed="true" stored="true" />
+  <!-- enable nested documents -->
+  <field name="_root_" type="string" indexed="true" stored="false" />
+
+</schema>
