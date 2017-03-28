@@ -26,7 +26,7 @@
   </dependencies>
 
   <build>
-    <finalName>${project.artifactId}</finalName>
+    <finalName>solr-plugins</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -42,7 +42,7 @@
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.0.2</version>
         <configuration>
-          <outputDirectory>solr</outputDirectory>
+          <outputDirectory>solr/mycore/conf</outputDirectory>
         </configuration>
       </plugin>
     </plugins>
