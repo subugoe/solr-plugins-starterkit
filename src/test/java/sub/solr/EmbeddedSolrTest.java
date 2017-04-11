@@ -61,7 +61,7 @@ public class EmbeddedSolrTest {
 		String hlText = solr.getHighlightings().get("1234").get(fieldName).get(0);
 		// System.out.println(hlText);
 		for (String word : words) {
-			String hlWord = "<span class=\"highlight\">" + word + "</span>";
+			String hlWord = "<em>" + word + "</em>";
 			if (forReal) {
 				assertThat(hlText, containsString(hlWord));
 			} else {
