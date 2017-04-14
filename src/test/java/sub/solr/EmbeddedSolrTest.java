@@ -30,19 +30,44 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
-	public void should() throws Exception {
+	public void shouldSelectChanged() throws Exception {
 		String[][] doc = { { "myfield", "bla" } };
 		solr.addDocument(doc);
 
-		String[][] extraParams = { { "hl", "on" } };
-		solr.select(extraParams, "blachanged");
+		solr.select("blachanged");
 
 		assertEquals(1, results());
 		assertHighlighted("myfield", "bla");
 	}
 
-	private String lemma(int resultNumber) {
-		return solr.lemma(resultNumber);
+	@Test
+	public void shouldSelectWithStarsBeginning() throws Exception {
+		String[][] doc = { { "myfield", "longtext" } };
+		solr.addDocument(doc);
+
+		solr.selectWithStars("long");
+		assertEquals(1, results());
+		assertHighlighted("myfield", "longtext");
+	}
+
+	@Test
+	public void shouldSelectWithStarsEnding() throws Exception {
+		String[][] doc = { { "myfield", "longtext" } };
+		solr.addDocument(doc);
+
+		solr.selectWithStars("text");
+		assertEquals(1, results());
+		assertHighlighted("myfield", "longtext");
+	}
+
+	@Test
+	public void shouldSelectWithStarsMiddle() throws Exception {
+		String[][] doc = { { "myfield", "longtext" } };
+		solr.addDocument(doc);
+
+		solr.selectWithStars("ongt");
+		assertEquals(1, results());
+		assertHighlighted("myfield", "longtext");
 	}
 
 	private long results() {

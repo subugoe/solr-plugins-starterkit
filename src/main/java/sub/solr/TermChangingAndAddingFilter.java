@@ -14,10 +14,10 @@ public class TermChangingAndAddingFilter extends TokenFilter {
 	private final CharTermAttribute termAttribute = addAttribute(CharTermAttribute.class);
 	private final PositionIncrementAttribute posIncrAttribute = addAttribute(PositionIncrementAttribute.class);
 	private final OffsetAttribute offsetAttribute = addAttribute(OffsetAttribute.class);
-	private boolean finished = false;
-	private int startOffset = 0;
-	private int endOffset = 0;
-	private int posIncr = 0;
+	private boolean finished;
+	private int startOffset;
+	private int endOffset;
+	private int posIncr;
 	private Queue<String> terms;
 
 	public TermChangingAndAddingFilter(TokenStream input) {
@@ -58,8 +58,6 @@ public class TermChangingAndAddingFilter extends TokenFilter {
 				startOffset = offsetAttribute.startOffset();
 				endOffset = offsetAttribute.endOffset();
 				posIncr = 1;
-
-				System.out.println(currentTerm);
 
 				String changedTerm = currentTerm + "changed";
 				terms.add(currentTerm);

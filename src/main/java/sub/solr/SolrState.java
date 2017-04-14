@@ -31,6 +31,10 @@ public class SolrState {
 		ask(extraParams, query, "/select");
 	}
 
+	public void selectWithStars(String query) {
+		ask(new String[][] {}, query, "/select_with_stars");
+	}
+
 	private void ask(String[][] extraParams, String query, String requestHandler) {
 		solrQueryString = query;
 		SolrQuery solrQuery = new SolrQuery(query);
@@ -77,13 +81,7 @@ public class SolrState {
 		System.out.println();
 		System.out.println(solrQueryString);
 		if (docList != null) {
-			System.out.println(docList.getNumFound() + " results");
-			for (int i = 0; i < 4; i++) {
-				if (i < docList.size()) {
-					SolrDocument doc = docList.get(i);
-					System.out.println(doc.getFieldValue("lemma") + "\t" + doc.getFieldValue("score"));
-				}
-			}
+			System.out.println(docList.getNumFound() + " result(s)");
 		}
 		if (highlightings != null && !highlightings.isEmpty()) {
 			System.out.println("hl:");

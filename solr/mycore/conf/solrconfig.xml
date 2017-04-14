@@ -13,6 +13,18 @@
       <str name="defType">edismax</str>
       <str name="df">myfield</str>
       <str name="hl.fl">myfield</str>
+      <str name="hl">on</str>
+    </lst>
+  </requestHandler>
+
+  <requestHandler name="/select_with_stars" class="sub.solr.StarSearchHandler">
+    <lst name="defaults">
+      <str name="qf">myfield</str>
+      <str name="echoParams">all</str>
+      <str name="defType">edismax</str>
+      <str name="df">myfield</str>
+      <str name="hl.fl">myfield</str>
+      <str name="hl">on</str>
     </lst>
   </requestHandler>
 
