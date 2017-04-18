@@ -19,14 +19,12 @@
       termPositions="true"
       termOffsets="true">
     <analyzer type="index">
-      <charFilter class="solr.HTMLStripCharFilterFactory" />
-      <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;&apos;\p{Z}\s′`″”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
+      <tokenizer class="solr.StandardTokenizerFactory" />
       <filter class="solr.LowerCaseFilterFactory" />
-      <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings.txt" />
-      <filter class="sub.fwb.LemmaNormalizingFilterFactory" />
+      <filter class="sub.solr.TermChangingAndAddingFilterFactory" />
     </analyzer>
     <analyzer type="query">
-      <tokenizer class="solr.PatternTokenizerFactory" pattern="[‒&amp;&lt;&gt;&quot;&apos;\p{Z}\s′`″”∣%«»‛\$⅓⅙⅔·⅕#˄˚\{\}\\¼¾©@‚°=½§…℔*₰¶⸗˺˹„“+–\/?!;›‹\.,’·‘:]+" />
+      <tokenizer class="solr.StandardTokenizerFactory" />
       <filter class="solr.LowerCaseFilterFactory" />
     </analyzer>
   </fieldType>
@@ -43,18 +41,16 @@
       <charFilter class="solr.HTMLStripCharFilterFactory" />
       <tokenizer class="solr.StandardTokenizerFactory" />
       <filter class="solr.LowerCaseFilterFactory" />
-      <filter class="sub.fwb.UmlautFilterFactory" file="umlaut_mappings_for_quotes.txt" />
-      <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="u" replacement="v" />
     </analyzer>
     <analyzer type="query">
       <tokenizer class="solr.StandardTokenizerFactory" />
       <filter class="solr.LowerCaseFilterFactory" />
-      <filter class="sub.fwb.WildcardsAcceptingPatternReplaceFilterFactory" pattern="u" replacement="v" />
     </analyzer>
   </fieldType>
 
   <field name="id" type="string" required="true" />
-  <field name="mytext" type="text_de" multiValued="false" />
+
+  <field name="myfield" type="text_de" multiValued="false" />
 
   <!-- transaction log -->
   <field name="_version_" type="long" indexed="true" stored="true" />
