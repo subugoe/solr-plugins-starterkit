@@ -10,7 +10,7 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 
-public final class TermChangingAndAddingFilter extends TokenFilter {
+public final class TermChangingFilter extends TokenFilter {
 	private final CharTermAttribute termAttribute = addAttribute(CharTermAttribute.class);
 	private final PositionIncrementAttribute posIncrAttribute = addAttribute(PositionIncrementAttribute.class);
 	private final OffsetAttribute offsetAttribute = addAttribute(OffsetAttribute.class);
@@ -20,7 +20,7 @@ public final class TermChangingAndAddingFilter extends TokenFilter {
 	private int posIncr;
 	private Queue<String> terms;
 
-	public TermChangingAndAddingFilter(TokenStream input) {
+	public TermChangingFilter(TokenStream input) {
 		super(input);
 		finished = false;
 		startOffset = 0;

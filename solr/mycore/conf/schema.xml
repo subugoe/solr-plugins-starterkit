@@ -21,7 +21,7 @@
     <analyzer type="index">
       <tokenizer class="solr.StandardTokenizerFactory" />
       <filter class="solr.LowerCaseFilterFactory" />
-      <filter class="sub.solr.TermChangingAndAddingFilterFactory" />
+      <filter class="sub.solr.TermChangingFilterFactory" />
     </analyzer>
     <analyzer type="query">
       <tokenizer class="solr.StandardTokenizerFactory" />
