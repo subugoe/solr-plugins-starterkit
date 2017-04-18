@@ -7,7 +7,7 @@
   <lib path="conf/solr-plugins.jar" />
 
   <!-- Common parameters for the custom search handlers -->
-  <initParams path="/select,/select_with_stars">
+  <initParams path="/select,/select_with_stars,/select_with_uppercase">
     <lst name="defaults">
       <str name="qf">myfield</str>
       <str name="echoParams">all</str>
@@ -23,6 +23,13 @@
 
   <requestHandler name="/select_with_stars" class="sub.solr.StarSearchHandler">
   </requestHandler>
+
+  <requestHandler name="/select_with_uppercase" class="solr.SearchHandler">
+    <arr name="last-components">
+      <str>hl-to-uppercase</str>
+    </arr>
+  </requestHandler>
+  <searchComponent name="hl-to-uppercase" class="sub.solr.HighlightUppercaseComponent" />
 
 
   <query>

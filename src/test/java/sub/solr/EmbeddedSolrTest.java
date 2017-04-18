@@ -70,6 +70,26 @@ public class EmbeddedSolrTest {
 		assertHighlighted("myfield", "longtext");
 	}
 
+	@Test
+	public void shouldSelectWithUppercase() throws Exception {
+		String[][] doc = { { "id", "id1" }, { "myfield", "ein langer Text" } };
+		solr.addDocument(doc);
+
+		solr.selectWithUppercase("langer");
+		assertEquals(1, results());
+		assertHighlighted("myfield", "LANGER");
+	}
+
+	@Test
+	public void shouldSelectWithUppercaseTwoHighlights() throws Exception {
+		String[][] doc = { { "id", "id1" }, { "myfield", "ein langer, sehr langer Text" } };
+		solr.addDocument(doc);
+
+		solr.selectWithUppercase("langer");
+		assertEquals(1, results());
+		assertHighlighted("myfield", "LANGER");
+	}
+
 	private long results() {
 		return solr.results();
 	}

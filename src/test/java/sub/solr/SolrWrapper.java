@@ -35,6 +35,10 @@ public class SolrWrapper {
 		ask(new String[][] {}, query, "/select_with_stars");
 	}
 
+	public void selectWithUppercase(String query) {
+		ask(new String[][] {}, query, "/select_with_uppercase");
+	}
+
 	private void ask(String[][] extraParams, String query, String requestHandler) {
 		solrQueryString = query;
 		SolrQuery solrQuery = new SolrQuery(query);
