@@ -12,15 +12,15 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.noggit.JSONUtil;
 
-public class SolrState {
+public class SolrWrapper {
 
-	private SolrClient solrServerClient;
+	private SolrClient solrClient;
 	private String solrQueryString = "";
 	private SolrDocumentList docList;
 	private Map<String, Map<String, List<String>>> highlightings;
 
-	public SolrState(SolrClient newSolrThing) {
-		solrServerClient = newSolrThing;
+	public SolrWrapper(SolrClient newSolrClient) {
+		solrClient = newSolrClient;
 	}
 
 	public void select(String query) {
@@ -45,7 +45,7 @@ public class SolrState {
 		}
 		QueryResponse response;
 		try {
-			response = solrServerClient.query(solrQuery);
+			response = solrClient.query(solrQuery);
 		} catch (Exception e) {
 			throw new RuntimeException("Could not execute '" + query + "'", e);
 		}
@@ -102,13 +102,13 @@ public class SolrState {
 		if (!newDoc.containsKey("id")) {
 			newDoc.addField("id", "1234");
 		}
-		solrServerClient.add(newDoc);
-		solrServerClient.commit();
+		solrClient.add(newDoc);
+		solrClient.commit();
 	}
 
 	public void clean() throws Exception {
-		solrServerClient.deleteByQuery("*:*");
-		solrServerClient.commit();
+		solrClient.deleteByQuery("*:*");
+		solrClient.commit();
 	}
 
 }

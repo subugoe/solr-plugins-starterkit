@@ -6,7 +6,8 @@
 
   <lib path="conf/solr-plugins.jar" />
 
-  <requestHandler name="/select" class="solr.SearchHandler">
+  <!-- Common parameters for the custom search handlers -->
+  <initParams path="/select,/select_with_stars">
     <lst name="defaults">
       <str name="qf">myfield</str>
       <str name="echoParams">all</str>
@@ -15,17 +16,12 @@
       <str name="hl.fl">myfield</str>
       <str name="hl">on</str>
     </lst>
+  </initParams>
+
+  <requestHandler name="/select" class="solr.SearchHandler">
   </requestHandler>
 
   <requestHandler name="/select_with_stars" class="sub.solr.StarSearchHandler">
-    <lst name="defaults">
-      <str name="qf">myfield</str>
-      <str name="echoParams">all</str>
-      <str name="defType">edismax</str>
-      <str name="df">myfield</str>
-      <str name="hl.fl">myfield</str>
-      <str name="hl">on</str>
-    </lst>
   </requestHandler>
 
 

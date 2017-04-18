@@ -9,18 +9,18 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import sub.solr.SolrState;
+import sub.solr.SolrWrapper;
 
 public class EmbeddedSolrTest {
 
-	private static SolrState solr;
+	private static SolrWrapper solr;
 
 	@BeforeClass
 	public static void beforeAllTests() throws Exception {
 		CoreContainer container = new CoreContainer("solr");
 		container.load();
 		EmbeddedSolrServer solrEmbedded = new EmbeddedSolrServer(container, "mycore");
-		solr = new SolrState(solrEmbedded);
+		solr = new SolrWrapper(solrEmbedded);
 	}
 
 	@After
@@ -30,8 +30,8 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
-	public void shouldSelectChanged() throws Exception {
-		String[][] doc = { { "myfield", "bla" } };
+	public void shouldFindChangedTerm() throws Exception {
+		String[][] doc = { { "id", "id1" }, { "myfield", "bla" } };
 		solr.addDocument(doc);
 
 		solr.select("blachanged");
@@ -42,7 +42,7 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldSelectWithStarsBeginning() throws Exception {
-		String[][] doc = { { "myfield", "longtext" } };
+		String[][] doc = { { "id", "id1" }, { "myfield", "longtext" } };
 		solr.addDocument(doc);
 
 		solr.selectWithStars("long");
@@ -52,7 +52,7 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldSelectWithStarsEnding() throws Exception {
-		String[][] doc = { { "myfield", "longtext" } };
+		String[][] doc = { { "id", "id1" }, { "myfield", "longtext" } };
 		solr.addDocument(doc);
 
 		solr.selectWithStars("text");
@@ -62,7 +62,7 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldSelectWithStarsMiddle() throws Exception {
-		String[][] doc = { { "myfield", "longtext" } };
+		String[][] doc = { { "id", "id1" }, { "myfield", "longtext" } };
 		solr.addDocument(doc);
 
 		solr.selectWithStars("ongt");
@@ -83,8 +83,7 @@ public class EmbeddedSolrTest {
 	}
 
 	private String assertHighlighted(boolean forReal, String fieldName, String... words) {
-		String hlText = solr.getHighlightings().get("1234").get(fieldName).get(0);
-		// System.out.println(hlText);
+		String hlText = solr.getHighlightings().get("id1").get(fieldName).get(0);
 		for (String word : words) {
 			String hlWord = "<em>" + word + "</em>";
 			if (forReal) {
