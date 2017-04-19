@@ -59,7 +59,7 @@ public final class TermChangingFilter extends TokenFilter {
 				endOffset = offsetAttribute.endOffset();
 				posIncr = 1;
 
-				String changedTerm = currentTerm + "changed";
+				String changedTerm = change(currentTerm);
 				terms.add(currentTerm);
 				terms.add(changedTerm);
 			} else {
@@ -67,6 +67,10 @@ public final class TermChangingFilter extends TokenFilter {
 			}
 		}
 		return false;
+	}
+
+	private String change(String currentTerm) {
+		return currentTerm + "changed";
 	}
 
 }
