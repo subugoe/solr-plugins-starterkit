@@ -18,7 +18,7 @@ public final class TermChangingFilter extends TokenFilter {
 	private int startOffset;
 	private int endOffset;
 	private int posIncr;
-	private Queue<String> terms;
+	private Queue<String> currentTerms;
 
 	public TermChangingFilter(TokenStream input) {
 		super(input);
@@ -26,7 +26,7 @@ public final class TermChangingFilter extends TokenFilter {
 		startOffset = 0;
 		endOffset = 0;
 		posIncr = 1;
-		this.terms = new LinkedList<String>();
+		this.currentTerms = new LinkedList<String>();
 	}
 
 	@Override
@@ -36,32 +36,31 @@ public final class TermChangingFilter extends TokenFilter {
 		startOffset = 0;
 		endOffset = 0;
 		posIncr = 1;
-		terms.clear();
+		currentTerms.clear();
 	}
 
 	@Override
 	public boolean incrementToken() throws IOException {
 		while (!finished) {
-			while (terms.size() > 0) {
-				String buffer = terms.poll();
+			while (thereAreTerms()) {
+				String term = currentTerms.poll();
 
-				termAttribute.copyBuffer(buffer.toCharArray(), 0, buffer.length());
-				offsetAttribute.setOffset(startOffset, endOffset);
-				posIncrAttribute.setPositionIncrement(posIncr);
+				addToIndex(term);
 
 				posIncr = 0;
 				return true;
 			}
 
-			if (input.incrementToken()) {
-				String currentTerm = termAttribute.toString();
+			if (newToken()) {
+				String tokenTerm = termAttribute.toString();
 				startOffset = offsetAttribute.startOffset();
 				endOffset = offsetAttribute.endOffset();
 				posIncr = 1;
 
-				String changedTerm = change(currentTerm);
-				terms.add(currentTerm);
-				terms.add(changedTerm);
+				String changedTerm = change(tokenTerm);
+
+				currentTerms.add(tokenTerm);
+				currentTerms.add(changedTerm);
 			} else {
 				finished = true;
 			}
@@ -69,8 +68,21 @@ public final class TermChangingFilter extends TokenFilter {
 		return false;
 	}
 
-	private String change(String currentTerm) {
-		return currentTerm + "changed";
+	private String change(String term) {
+		return term + "changed";
 	}
 
+	private boolean thereAreTerms() {
+		return currentTerms.size() > 0;
+	}
+
+	private boolean newToken() throws IOException {
+		return input.incrementToken();
+	}
+	
+	private void addToIndex(String term) {
+		termAttribute.copyBuffer(term.toCharArray(), 0, term.length());
+		offsetAttribute.setOffset(startOffset, endOffset);
+		posIncrAttribute.setPositionIncrement(posIncr);
+	}
 }
