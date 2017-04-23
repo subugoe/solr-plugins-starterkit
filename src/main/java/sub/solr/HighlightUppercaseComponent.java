@@ -26,10 +26,10 @@ public class HighlightUppercaseComponent extends SearchComponent {
 			for (int i = 0; i < highlightedDocs.size(); i++) {
 				@SuppressWarnings("unchecked")
 				SimpleOrderedMap<Object> currentDoc = (SimpleOrderedMap<Object>) highlightedDocs.getVal(i);
-				String[] originalHighlight = (String[]) currentDoc.get("myfield");
-				String[] uppercasedHighlight = toUppercase(originalHighlight);
+				String[] originalHighlightSnippet = (String[]) currentDoc.get("myfield");
+				String[] uppercasedHighlightSnippet = toUppercase(originalHighlightSnippet);
 				currentDoc.remove("myfield");
-				currentDoc.add("myfield", uppercasedHighlight);
+				currentDoc.add("myfield", uppercasedHighlightSnippet);
 			}
 		}
 	}

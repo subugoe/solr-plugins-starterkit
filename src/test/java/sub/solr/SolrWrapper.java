@@ -83,12 +83,12 @@ public class SolrWrapper {
 
 	public void printResults() {
 		System.out.println();
-		System.out.println(solrQueryString);
+		System.out.println("query: " + solrQueryString);
 		if (docList != null) {
 			System.out.println(docList.getNumFound() + " result(s)");
 		}
 		if (highlightings != null && !highlightings.isEmpty()) {
-			System.out.println("hl:");
+			System.out.println("highlightings:");
 			System.out.println(jsonHighlights());
 		}
 		// System.out.println(JSONUtil.toJSON(docList));
