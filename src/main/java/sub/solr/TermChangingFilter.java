@@ -52,12 +52,12 @@ public final class TermChangingFilter extends TokenFilter {
 			}
 
 			if (newToken()) {
-				String tokenTerm = termAttribute.toString(); // zB "bla"
+				String tokenTerm = termAttribute.toString(); // zB "test"
 				startOffset = offsetAttribute.startOffset();
 				endOffset = offsetAttribute.endOffset();
 				posIncr = 1;
 
-				String changedTerm = change(tokenTerm); // zB "blachanged"
+				String changedTerm = change(tokenTerm); // zB "testchanged"
 
 				currentTerms.add(tokenTerm);
 				currentTerms.add(changedTerm);

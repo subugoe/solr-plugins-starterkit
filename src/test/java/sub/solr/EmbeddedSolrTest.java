@@ -31,13 +31,13 @@ public class EmbeddedSolrTest {
 
 	@Test
 	public void shouldFindChangedTerm() throws Exception {
-		String[][] doc = { { "id", "id1" }, { "myfield", "bla" } };
+		String[][] doc = { { "id", "id1" }, { "myfield", "test" } };
 		solr.addDocument(doc);
 
-		solr.select("blachanged");
+		solr.select("testchanged");
 
 		assertEquals(1, results());
-		assertHighlighted("myfield", "bla");
+		assertHighlighted("myfield", "test");
 	}
 
 	@Test
