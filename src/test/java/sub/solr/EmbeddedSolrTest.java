@@ -41,7 +41,7 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
-	public void shouldSelectWithStarsBeginning() throws Exception {
+	public void shouldSelectWithStarsPrefix() throws Exception {
 		String[][] doc = { { "id", "id1" }, { "myfield", "longtext" } };
 		solr.addDocument(doc);
 
@@ -51,7 +51,7 @@ public class EmbeddedSolrTest {
 	}
 
 	@Test
-	public void shouldSelectWithStarsEnding() throws Exception {
+	public void shouldSelectWithStarsPostfix() throws Exception {
 		String[][] doc = { { "id", "id1" }, { "myfield", "longtext" } };
 		solr.addDocument(doc);
 
